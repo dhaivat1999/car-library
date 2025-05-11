@@ -36,7 +36,6 @@ const CarCard: FC<CarCardProps> = ({
       onDeleteSuccess?.();
     } catch (err) {
       console.error(err);
-      alert("Failed to delete car.");
     } finally {
       setIsDeleting(false);
       setShowConfirm(false);
@@ -47,19 +46,19 @@ const CarCard: FC<CarCardProps> = ({
     <>
       <div
         onClick={onClick}
-        className="w-60 pb-4 bg-Primary-White rounded-2xl shadow-[6px_12px_12px_0px_rgba(0,0,0,0.02),-6px_-2px_12px_0px_rgba(0,0,0,0.04)] flex flex-col justify-start items-start gap-2.5 cursor-pointer relative"
+        className="w-full max-w-[15rem] pb-4 bg-Primary-White rounded-2xl shadow-[6px_12px_12px_0px_rgba(0,0,0,0.02),-6px_-2px_12px_0px_rgba(0,0,0,0.04)] flex flex-col justify-start items-start gap-2.5 cursor-pointer relative"
       >
-        <div className="self-stretch flex flex-col justify-start items-start gap-2">
-          <div className="self-stretch h-36 relative">
+        <div className="w-full flex flex-col justify-start items-start gap-2">
+          <div className="w-full h-36 relative">
             {!imageError ? (
               <img
                 src={imageUrl}
                 alt={name}
                 onError={() => setImageError(true)}
-                className="w-60 h-36 object-cover rounded-t-2xl"
+                className="w-full h-36 object-cover rounded-t-2xl"
               />
             ) : (
-              <div className="w-60 h-36 bg-purple-50 flex items-center justify-center rounded-t-2xl">
+              <div className="w-full h-36 bg-purple-50 flex items-center justify-center rounded-t-2xl">
                 <ErrorImageSvg className="opacity-20" />
               </div>
             )}
@@ -76,8 +75,8 @@ const CarCard: FC<CarCardProps> = ({
             </div>
           </div>
 
-          <div className="self-stretch px-3 flex flex-col justify-start items-start gap-2">
-            <div className="self-stretch flex justify-between items-center">
+          <div className="w-full px-3 flex flex-col justify-start items-start gap-2">
+            <div className="w-full flex justify-between items-center">
               <span className="text-Primary-Black text-base font-bold">
                 {name}
               </span>

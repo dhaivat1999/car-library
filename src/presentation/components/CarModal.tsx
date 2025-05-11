@@ -59,10 +59,10 @@ const CarModal: FC<CarModalProps> = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/10 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div
         ref={modalRef}
-        className={`relative bg-white rounded-[20px] pt-4 px-8 pb-6 flex flex-row items-start justify-center transform transition-all duration-200 ${
+        className={`relative bg-white rounded-[20px] pt-4 px-8 pb-6 flex flex-row items-start justify-center transform transition-all duration-200 max-h-[90vh] overflow-y-auto w-full max-w-[700px] ${
           isVisible
             ? "opacity-100 scale-100"
             : "opacity-0 scale-95 pointer-events-none"
@@ -72,15 +72,15 @@ const CarModal: FC<CarModalProps> = ({
             "0 15px 40px rgba(0, 0, 0, 0.25), 0 5px 20px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <div className="flex flex-col gap-4 items-start w-[650px] relative">
-          {/* Header */}
-          <div className="flex items-end justify-between w-full relative">
-            <h2 className="text-Primary-Black text-[30px] font-bold w-[495px] h-[65px] flex items-end">
+        <div className="flex flex-col gap-4 items-start w-full relative">
+          <div className="flex items-start justify-between w-full relative">
+            <h2 className="text-Primary-Black text-[30px] font-bold max-w-[495px] leading-tight">
               {name}
             </h2>
             <button
               onClick={handleClose}
-              className="absolute top-0 right-0 w-4 h-[15px] text-Primary-Black hover:text-gray-700 transition-colors"
+              className="absolute top-0 right-0 w-4 h-4 text-Primary-Black hover:text-gray-700 transition-colors"
+              aria-label="Close modal"
             >
               <svg
                 className="w-4 h-4"
@@ -98,23 +98,20 @@ const CarModal: FC<CarModalProps> = ({
             </button>
           </div>
 
-          {/* Content */}
           <div className="flex flex-col gap-8 w-full">
-            {/* Image */}
             {!imageError ? (
               <img
                 src={imageUrl}
                 alt={name}
                 onError={() => setImageError(true)}
-                className="w-[650px] h-[230px] object-cover rounded-2xl"
+                className="w-full h-[230px] object-cover rounded-2xl"
               />
             ) : (
-              <div className="w-[650px] h-[230px] bg-purple-50 flex items-center justify-center rounded-2xl">
+              <div className="w-full h-[230px] bg-purple-50 flex items-center justify-center rounded-2xl">
                 <ErrorImageSvg className="opacity-20" />
               </div>
             )}
 
-            {/* Car Type Badge */}
             <div
               className={`inline-flex self-start rounded-md border pt-1.5 px-3 pb-1.5 text-xs font-normal ${
                 carType === "automatic"
@@ -125,7 +122,6 @@ const CarModal: FC<CarModalProps> = ({
               {carType === "automatic" ? "Automatic" : "Manual"}
             </div>
 
-            {/* Description */}
             <div className="w-full">
               <h3 className="text-Primary-Black text-sm font-extrabold uppercase tracking-wider">
                 Description
@@ -135,10 +131,8 @@ const CarModal: FC<CarModalProps> = ({
               </p>
             </div>
 
-            {/* Divider */}
             <hr className="border-Primary-Black opacity-10 w-full" />
 
-            {/* Tags */}
             <div className="w-full">
               <h3 className="text-Primary-Black text-sm font-extrabold uppercase tracking-wider">
                 Tags
@@ -155,7 +149,6 @@ const CarModal: FC<CarModalProps> = ({
               </div>
             </div>
 
-            {/* Last Updated */}
             <p className="text-sm italic text-Primary-Black opacity-50 mt-4">
               Last Updated: {lastUpdated}
             </p>

@@ -1,4 +1,4 @@
-import { useState, type FC, useEffect } from "react";
+import { useState, useEffect, type FC } from "react";
 import type { CarType } from "../../domain/car/car.model";
 
 interface FilterModalProps {
@@ -11,7 +11,6 @@ interface FilterModalProps {
   availableTags: string[];
   onReset: () => void;
   onApply: () => void;
-
   onTagsChange: (tags: string[]) => void;
 }
 
@@ -29,7 +28,6 @@ const FilterModal: FC<FilterModalProps> = ({
 }) => {
   const [showCarType, setShowCarType] = useState(true);
   const [showTags, setShowTags] = useState(true);
-
   const [localCarType, setLocalCarType] = useState<"" | CarType>(carType);
   const [localSelectedTags, setLocalSelectedTags] =
     useState<string[]>(selectedTags);
@@ -44,31 +42,26 @@ const FilterModal: FC<FilterModalProps> = ({
   const handleApply = () => {
     onCarTypeChange(localCarType);
     onTagsChange(localSelectedTags);
-    // Apply tag changes
-    selectedTags.forEach((tag) => {
-      if (!localSelectedTags.includes(tag)) {
-        onTagToggle(tag); // removed
-      }
-    });
-    localSelectedTags.forEach((tag) => {
-      if (!selectedTags.includes(tag)) {
-        onTagToggle(tag); // added
-      }
-    });
-
     onApply();
     onClose();
   };
 
+  const hasAnyFilters = localCarType !== "" || localSelectedTags.length > 0;
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="filter-modal-title"
+    >
       <div className="relative bg-white rounded-2xl shadow-lg w-[500px] px-8 py-6 flex flex-col gap-4">
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-5 right-5 w-4 h-[15px] text-gray-800 hover:text-gray-600"
+          aria-label="Close filter modal"
         >
           <svg
             className="w-4 h-4"
@@ -85,19 +78,21 @@ const FilterModal: FC<FilterModalProps> = ({
           </svg>
         </button>
 
-        {/* Reset + Header */}
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold">Filter By</h2>
-          <button
-            onClick={onReset}
-            className="text-sm text-gray-500 underline hover:text-gray-700"
-          >
-            ⟳ Reset
-          </button>
+        <div className="pt-6 flex items-center justify-between">
+          <h2 id="filter-modal-title" className="text-lg font-bold">
+            Filter By
+          </h2>
+          {hasAnyFilters && (
+            <button
+              onClick={onReset}
+              className="text-sm text-gray-500 underline hover:text-gray-700"
+            >
+              ⟳ Reset
+            </button>
+          )}
         </div>
 
-        {/* Car Type Section */}
-        <div className="border-t border-b py-4">
+        <div className="border-b py-4">
           <button
             onClick={() => setShowCarType((prev) => !prev)}
             className="w-full flex justify-between items-center"
@@ -115,7 +110,7 @@ const FilterModal: FC<FilterModalProps> = ({
                   }
                   className={`px-4 py-1.5 rounded-full border text-sm font-medium transition-colors ${
                     localCarType === type
-                      ? "bg-purple-600 text-white border-purple-600"
+                      ? "bg-purple-100 text-purple-300"
                       : "bg-white text-gray-700 border-gray-300"
                   }`}
                 >
@@ -126,7 +121,6 @@ const FilterModal: FC<FilterModalProps> = ({
           )}
         </div>
 
-        {/* Tags Section */}
         <div className="border-b py-4">
           <button
             onClick={() => setShowTags((prev) => !prev)}
@@ -151,7 +145,7 @@ const FilterModal: FC<FilterModalProps> = ({
                     }
                     className={`px-3 py-1.5 rounded-full text-sm border font-medium transition-colors ${
                       isSelected
-                        ? "bg-purple-100 text-purple-800 border-purple-300"
+                        ? "bg-purple-100 text-purple-300"
                         : "bg-white text-gray-700 border-gray-300"
                     }`}
                   >
@@ -163,10 +157,9 @@ const FilterModal: FC<FilterModalProps> = ({
           )}
         </div>
 
-        {/* Apply Button */}
         <button
           onClick={handleApply}
-          className="mt-4 px-6 py-2 rounded-full bg-purple-600 text-white text-sm font-medium hover:bg-purple-700"
+          className="mt-4 px-6 py-2 rounded-full bg-purple-600 text-white text-sm font-medium hover:bg-purple-700 transition-colors"
         >
           Apply
         </button>

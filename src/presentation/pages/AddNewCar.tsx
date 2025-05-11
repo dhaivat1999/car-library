@@ -16,13 +16,6 @@ const AddNewCar: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const carTypes = ["automatic", "manual"];
-  //   const availableSpecifications = [
-  //     "Enginer: 5.0L TI-VCT V8",
-  //     "Displacement: 4951 cc",
-  //     "Fuel Type: Petrol",
-  //     "Mileage (ARAI): 7.9 km/l",
-  //   ];
-
   const [errors, setErrors] = useState({
     carName: false,
     carType: false,
@@ -68,7 +61,7 @@ const AddNewCar: React.FC = () => {
       name: carName,
       description,
       carType: carType as CarType,
-      imageUrl, // changed from `image`
+      imageUrl,
       tags,
     };
     console.log("Payload:", payload);
@@ -104,18 +97,17 @@ const AddNewCar: React.FC = () => {
   return (
     <div className="min-h-screen w-full flex justify-between items-start pt-10 px-20 bg-gray-100">
       <div className="flex-shrink-0 pt-6">
-        <h1 className="text-4xl font-bold text-black">Add Car</h1>
+        <h1 className="pl-12 text-4xl font-bold text-black">Add Car</h1>
       </div>
 
       <div className="flex-grow flex justify-center items-center">
         <div className="max-w-[520px] w-full py-8 px-6 bg-white/50 rounded-[20px] shadow-md backdrop-blur-md flex flex-col justify-start items-start gap-5">
           <div className="w-full flex flex-col gap-3">
-            {/* Car Name */}
             <div className="w-full">
               <div className="flex justify-between mb-1">
                 <label
                   htmlFor="carName"
-                  className="text-sm font-medium text-gray-900"
+                  className="text-xs font-normal text-black"
                 >
                   Car name<span className="text-red-500">*</span>
                 </label>
@@ -130,7 +122,7 @@ const AddNewCar: React.FC = () => {
                 type="text"
                 value={carName}
                 onChange={(e) => setCarName(e.target.value)}
-                className={`w-full rounded-full px-4 py-2 text-sm outline-none transition-all ${
+                className={`w-full font-bold rounded-full px-4 py-2 text-sm outline-none transition-all ${
                   errors.carName
                     ? "border border-red-500 placeholder-red-300"
                     : "border border-gray-200"
@@ -139,7 +131,6 @@ const AddNewCar: React.FC = () => {
               />
             </div>
 
-            {/* Description */}
             <div className="w-full flex flex-col gap-1 relative">
               <label className="text-xs text-black font-normal">
                 Description
@@ -149,14 +140,13 @@ const AddNewCar: React.FC = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter here"
-                className="h-16 pl-5 pr-5 py-2 bg-white rounded-[20px] outline outline-1 outline-black/10 text-sm font-semibold text-black placeholder:opacity-30 resize-none"
+                className="font-bold h-16 pl-5 pr-5 py-2 bg-white rounded-[20px] outline outline-1 outline-black/10 text-sm text-black placeholder:opacity-30 resize-none"
               />
               <div className="absolute bottom-1 right-4 text-xs text-black opacity-30">
                 {description.length}/280 char
               </div>
             </div>
 
-            {/* Car Type */}
             <div className="w-full flex flex-col items-start gap-2">
               <div className="self-stretch flex justify-between">
                 <label className="text-xs text-black font-normal">
@@ -218,19 +208,31 @@ const AddNewCar: React.FC = () => {
                         }}
                         className="flex items-center gap-3 pb-3.5 cursor-pointer"
                       >
-                        <div className="w-6 h-6 relative rounded">
-                          {isSelected ? (
-                            <>
-                              <div className="w-6 h-6 absolute bg-lime-300 rounded border" />
-                              <div className="w-3 h-2 absolute left-[6px] top-[8px] bg-black rounded outline outline-[0.80px] outline-offset-[-0.40px] outline-black" />
-                            </>
-                          ) : (
-                            <div className="w-6 h-6 border border-black rounded" />
+                        <div
+                          className={`w-6 h-6 rounded-full border-2 border-black flex items-center justify-center ${
+                            isSelected ? "bg-lime-300" : "bg-white"
+                          }`}
+                        >
+                          {isSelected && (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-4 h-4 text-black"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={3}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            </svg>
                           )}
                         </div>
-                        <div className="text-sm text-black font-normal">
+                        <span className="text-sm text-black font-normal">
                           {type}
-                        </div>
+                        </span>
                       </div>
                     );
                   })}
@@ -238,7 +240,6 @@ const AddNewCar: React.FC = () => {
               )}
             </div>
 
-            {/* Tags */}
             <div className="w-full flex flex-col gap-2 relative">
               <div className="flex justify-between">
                 <label className="text-xs text-black font-normal">
@@ -295,14 +296,27 @@ const AddNewCar: React.FC = () => {
                           onClick={() => toggleTag(spec)}
                         >
                           <div
-                            className={`w-6 h-6 rounded border flex items-center justify-center ${
+                            className={`w-6 h-6 rounded border-2 flex items-center justify-center ${
                               isSelected
                                 ? "bg-lime-300 border-black"
                                 : "border-black"
                             }`}
                           >
                             {isSelected && (
-                              <div className="w-3 h-2 bg-black rounded outline outline-[0.80px] outline-offset-[-0.40px] outline-black" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4 text-black"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={3}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
                             )}
                           </div>
                           <div className="text-sm text-black font-normal">
@@ -349,7 +363,6 @@ const AddNewCar: React.FC = () => {
               )}
             </div>
 
-            {/* Image URL */}
             <div className="w-full flex flex-col gap-1">
               <div className="flex justify-between">
                 <label className="text-xs text-black font-normal">
@@ -375,7 +388,6 @@ const AddNewCar: React.FC = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="w-full flex justify-center mt-2">
             <button
               onClick={handleSubmit}
